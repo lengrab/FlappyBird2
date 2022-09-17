@@ -1,0 +1,55 @@
+{
+    "name": "InputScheme",
+    "maps": [
+        {
+            "name": "ActionMap",
+            "id": "93d6558b-ed62-4991-aa1a-22ea9c0e4698",
+            "actions": [
+                {
+                    "name": "Touch",
+                    "type": "Button",
+                    "id": "7cdf007a-012e-47ad-9517-229fdf24d156",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "0ae295f2-0018-4df7-83c2-a36c292dc93e",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "PC",
+                    "action": "Touch",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "0a86de3a-7bd9-4d47-822b-694b54a6083a",
+                    "path": "<Touchscreen>/primaryTouch/tap",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Mobile",
+                    "action": "Touch",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": [
+        {
+            "name": "PC",
+            "bindingGroup": "PC",
+            "devices": []
+        },
+        {
+            "name": "Mobile",
+            "bindingGroup": "Mobile",
+            "devices": []
+        }
+    ]
+}
