@@ -11,9 +11,15 @@ public class BirdMover : MonoBehaviour
     [SerializeField] private float _maxAngle = 45f;
     [SerializeField] private float _speedRotation = 2f;
     [SerializeField] private Vector3 _startPosition = Vector3.zero;
+    [SerializeField] private float _maxHeight = 2.35f;
 
     public void Jump()
     {
+        if (transform.position.y > _maxHeight)
+        {
+            return;
+        }
+
         Vector2 currentSpeed = _rigidbody2D.velocity;
         float startSpeed = Mathf.Sqrt(_hightJump * 2 * Mathf.Abs(Physics.gravity.y));
         _rigidbody2D.velocity = new Vector2(currentSpeed.x,0);
