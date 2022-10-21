@@ -1,17 +1,19 @@
-using System;
-using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class BirdMover : MonoBehaviour
 {
     [SerializeField] private Rigidbody2D _rigidbody2D;
     [SerializeField] private float _speed = 2;
     [SerializeField] private float _hightJump = 2;
-    [SerializeField] private float _minAngle =  -45f;
+    [SerializeField] private float _minAngle = -45f;
     [SerializeField] private float _maxAngle = 45f;
     [SerializeField] private float _speedRotation = 2f;
     [SerializeField] private Vector3 _startPosition = Vector3.zero;
     [SerializeField] private float _maxHeight = 2.35f;
+    [SerializeField] private UnityEvent _onJump;
+    [SerializeField] private UnityEvent _onFail;
+
 
     public void Jump()
     {
@@ -22,8 +24,9 @@ public class BirdMover : MonoBehaviour
 
         Vector2 currentSpeed = _rigidbody2D.velocity;
         float startSpeed = Mathf.Sqrt(_hightJump * 2 * Mathf.Abs(Physics.gravity.y));
-        _rigidbody2D.velocity = new Vector2(currentSpeed.x,0);
+        _rigidbody2D.velocity = new Vector2(currentSpeed.x, 0);
         _rigidbody2D.AddForce(new Vector2(0, startSpeed * _rigidbody2D.mass), ForceMode2D.Impulse);
+        _onJump?.Invoke();
         Rotate();
     }
 
@@ -48,10 +51,15 @@ public class BirdMover : MonoBehaviour
         _rigidbody2D.isKinematic = false;
     }
 
+    public void Reset()
+    {
+        transform.position = _startPosition;
+    }
+
     public void Stop()
     {
-        _rigidbody2D.velocity = new Vector2(0, 0);
-        transform.position = _startPosition;
         _rigidbody2D.isKinematic = true;
+        _rigidbody2D.velocity = new Vector2(0, 0);
+        _onFail?.Invoke();
     }
 }

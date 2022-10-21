@@ -21,7 +21,7 @@ public class BirdCollisionHandler : MonoBehaviour
 
         if (collision.TryGetComponent(out Ground ground))
         {
-            //_birdMover.Stop();
+            _birdMover.Stop();
         }
     }
 }

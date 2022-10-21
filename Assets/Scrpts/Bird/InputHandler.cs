@@ -10,13 +10,13 @@ public class InputHandler : MonoBehaviour
 
     private void Awake()
     {
-        if  (_birdMover == null){
+        if (_birdMover == null)
+        {
             enabled = false;
             return;
         }
 
         _inputs = new InputScheme();
-        
     }
 
     private void OnEnable()
