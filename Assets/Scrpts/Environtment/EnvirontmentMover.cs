@@ -1,25 +1,36 @@
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class EnvirontmentMover : MonoBehaviour
 {
     [SerializeField] private Transform _birdTransform;
-    private Queue<GameObject> _queue;
+    [SerializeField] private int _poolSize = 3;
     [SerializeField] private GameObject _template;
     [SerializeField] private Vector3 _startPosition = Vector3.zero;
+    
     private GameObject _lastInstance;
-    [SerializeField] private float _width;
-    [SerializeField] private int _poolSize = 3;
+    private float _width;
+    private Queue<GameObject> _queue;
 
-    private void Awake()
+    public void Reset()
     {
-        _width = GetWidth();
+        while (_queue?.Count > 0)
+        {
+            Destroy(_queue.Dequeue().gameObject);
+            _lastInstance = null;
+        }
+        
         _queue = new Queue<GameObject>();
         for (int i = 0; i < _poolSize; i++)
         {
             _queue.Enqueue(AddInstance());
         }
+    }
+
+    private void Awake()
+    {
+        _width = GetWidth();
+        Reset();
     }
 
     private void MoveLast()
@@ -29,7 +40,7 @@ public class EnvirontmentMover : MonoBehaviour
         _lastInstance = instance;
         _queue.Enqueue(instance);
     }
-    
+
     private float GetWidth()
     {
         return _template.GetComponent<SpriteRenderer>().bounds.size.x - 0.001f;
@@ -50,7 +61,7 @@ public class EnvirontmentMover : MonoBehaviour
         _lastInstance = instance;
         return instance;
     }
-    
+
     private void FixedUpdate()
     {
         if (_birdTransform.position.x >= _lastInstance.transform.position.x)

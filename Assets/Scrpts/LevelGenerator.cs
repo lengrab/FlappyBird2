@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -12,11 +13,15 @@ public class LevelGenerator : MonoBehaviour
     [SerializeField] private float _maxHeight = 2;
     private Queue<Pipes> _pipesQueue;
     private Vector3 _nextPosition;
+    private Pipes _pipe;
 
-    public Vector3 NextPosition => _nextPosition;
-
-    private void Awake()
-    {
+    public void Reset()
+    {  
+        while (_pipesQueue?.Count > 0)
+        {
+            Destroy(_pipesQueue.Dequeue().gameObject);
+        }
+        
         _pipesQueue = new Queue<Pipes>();
         _nextPosition = _startPosition;
 
@@ -28,15 +33,10 @@ public class LevelGenerator : MonoBehaviour
 
     public void Spawn()
     {
-        while (_pipesQueue.Count > _maxPipesOnScene)
-        {
-            Pipes oldPipe =  _pipesQueue.Dequeue();
-            Destroy(oldPipe.gameObject);
-        }
+        var offset = 0.5f;
+        var height = Mathf.PerlinNoise(1, 0.5f * _nextPosition.x) * _heightRange - _heightRange / 2 + offset;
+        var difference = _nextPosition.y - height;
 
-        float offset = 0.5f;
-        float height = Mathf.PerlinNoise(1, 0.5f * _nextPosition.x) * _heightRange - _heightRange / 2 + offset;
-        float difference = _nextPosition.y - height;
         if (difference > _maxHeight)
         {
             if (height - _nextPosition.y > 0)
@@ -49,9 +49,16 @@ public class LevelGenerator : MonoBehaviour
             }
         }
 
-        Pipes temp = Instantiate(_template).GetComponent<Pipes>();
-        _pipesQueue.Enqueue(temp);
-        temp.Init(_nextPosition + Vector3.up * height);
+        _pipe = _pipesQueue.Count < _maxPipesOnScene
+            ? Instantiate(_template, transform).GetComponent<Pipes>()
+            : _pipesQueue.Dequeue();
+        _pipe.Init(_nextPosition + Vector3.up * height);
         _nextPosition += _spaceBetweenPipes * Vector3.right;
+        _pipesQueue.Enqueue(_pipe);
+    }
+
+    private void Awake()
+    {
+        Reset();
     }
 }

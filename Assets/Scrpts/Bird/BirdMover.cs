@@ -12,7 +12,6 @@ public class BirdMover : MonoBehaviour
     [SerializeField] private Vector3 _startPosition = Vector3.zero;
     [SerializeField] private float _maxHeight = 2.35f;
     [SerializeField] private UnityEvent _onJump;
-    [SerializeField] private UnityEvent _onFail;
 
 
     public void Jump()
@@ -60,6 +59,5 @@ public class BirdMover : MonoBehaviour
     {
         _rigidbody2D.isKinematic = true;
         _rigidbody2D.velocity = new Vector2(0, 0);
-        _onFail?.Invoke();
     }
 }

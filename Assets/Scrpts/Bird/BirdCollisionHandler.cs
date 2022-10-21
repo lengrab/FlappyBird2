@@ -5,12 +5,7 @@ using UnityEngine.Events;
 public class BirdCollisionHandler : MonoBehaviour
 {
     [SerializeField] private UnityEvent _achivment;
-    private BirdMover _birdMover;
-
-    private void Awake()
-    {
-        _birdMover = GetComponent<BirdMover>();
-    }
+    [SerializeField] private UnityEvent _fail;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -21,7 +16,7 @@ public class BirdCollisionHandler : MonoBehaviour
 
         if (collision.TryGetComponent(out Ground ground))
         {
-            _birdMover.Stop();
+            _fail.Invoke();
         }
     }
 }

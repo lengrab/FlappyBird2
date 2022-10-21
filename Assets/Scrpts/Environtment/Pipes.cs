@@ -4,16 +4,14 @@ public class Pipes : MonoBehaviour
 {
     [SerializeField] private Transform _topPipeTransform;
     [SerializeField] private Transform _downPipeTransform;
-    [SerializeField] private float _height  = 2;
+    [SerializeField] private float _height = 2;
 
     float topHieght;
     float downHieght;
 
-
     public void Init(Vector3 position)
     {
-        Vector3 startPosition = transform.position;
-        transform.position = startPosition + position;
+        transform.position = position;
     }
 
     private void Awake()
